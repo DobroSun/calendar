@@ -24,12 +24,15 @@ SOFTWARE.
 
 module Main where
 
-import System.Console.Terminal.Size
+import System.Console.Terminal.Size (Window (..), size)
 import Text.PrettyPrint.Boxes
-import Data.Time.Calendar
-import Data.Time.Clock 
+import System.Console.ParseArgs (Arg (..), Args (..), ArgsComplete (..), parseArgsIO, gotArg)
+import Data.Time.Calendar (DayOfWeek (..), fromGregorian, toGregorian, gregorianMonthLength, dayOfWeek)
+import Data.Time.Clock (getCurrentTime, utctDay)
 import Data.List (transpose)
 import Text.Printf (printf)
+import Control.Monad (when)
+import System.Exit (ExitCode (..), exitWith)
 
 
 data Month = 
@@ -152,12 +155,33 @@ printCalendar Nothing year = do
   printBox $ finalBox (getCalendar year) 106
 
 
+data ArgIndex =
+    Help
+  deriving (Eq, Ord, Show)
+
+
+help :: Arg ArgIndex
+help =
+  Arg
+  { argIndex = Help
+  , argAbbr = Just 'h'
+  , argName = Just "help"
+  , argData = Nothing
+  , argDesc = "Display a help message."
+  }
+
 
 main :: IO ()
 main = do
+  let args = [help]
+  argMap <- parseArgsIO ArgsComplete args
+
+  when (gotArg argMap Help) $ do
+    putStrLn $ argsUsage argMap
+    exitWith ExitSuccess
+
   (year, month, day) <- date
   window <- size
 
   printf "Today is %d day of %s, %d\n\n" day (show . fromInt $ month) year
   printCalendar window year
-  --printBox $ finalBox (getCalendar year) 106

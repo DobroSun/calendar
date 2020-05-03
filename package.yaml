@@ -24,6 +24,7 @@ dependencies:
 - text
 - boxes
 - time
+- parseargs
 - terminal-size
 
 library:

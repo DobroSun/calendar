@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3cebeacc337153e556e58f50765bf714a22c9ad56df5c402a9bbad03725c74ec
+-- hash: 0e5825798f31e7b4f86e31ac7755fc2ca74f0cf36fd09b6db756aeec56e10583
 
 name:           calendar
 version:        0.1.0.0
@@ -35,6 +35,7 @@ library
   build-depends:
       base >=4.7 && <5
     , boxes
+    , parseargs
     , terminal-size
     , text
     , time
@@ -51,6 +52,7 @@ executable calendar-exe
       base >=4.7 && <5
     , boxes
     , calendar
+    , parseargs
     , terminal-size
     , text
     , time
@@ -68,6 +70,7 @@ test-suite calendar-test
       base >=4.7 && <5
     , boxes
     , calendar
+    , parseargs
     , terminal-size
     , text
     , time
